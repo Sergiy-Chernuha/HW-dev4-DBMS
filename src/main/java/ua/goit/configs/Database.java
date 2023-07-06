@@ -15,6 +15,7 @@ public class Database {
 
     public static Database getInstance() {
         Database.instance.setConnection();
+
         return instance;
     }
 
