@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabasePopulateService {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         Connection conn = Database.getInstance().getConnection();
         String clientSql = DBUtils.getSQL("src/main/java/resource/SQL/populate_db_client.sql");
         String projectSql = DBUtils.getSQL("src/main/java/resource/SQL/populate_db_project.sql");
@@ -70,71 +70,81 @@ public class DatabasePopulateService {
         projectWorkers.add(new ProjectWorker(9, 10));
         projectWorkers.add(new ProjectWorker(10, 10));
 
-        populatingClients(conn, clientSql, clients);
-        populatingProjects(conn, projectSql, projects);
-        populatingWorkers(conn, workerSql, workers);
-        populatingProjectWorkers(conn, projectWorkerSql, projectWorkers);
-    }
-
-    private static void populatingClients(Connection conn, String sql, List<Client> clients) {
-        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+        try {
+            conn.setAutoCommit(false);
             for (Client client : clients) {
-                statement.setString(1, client.getName());
-
-                statement.addBatch();
+                populatingClients(conn, clientSql, client);
             }
 
-            statement.executeBatch();
-        } catch (SQLException e) {
-            System.out.println("not correct query client");
-        }
-    }
-
-    private static void populatingProjects(Connection conn, String sql, List<Project> projects) {
-        try (PreparedStatement statement = conn.prepareStatement(sql)) {
             for (Project project : projects) {
-                statement.setLong(1, project.getClientId());
-                statement.setDate(2, project.getStartDate());
-                statement.setDate(3, project.getFinishDate());
-
-                statement.addBatch();
+                populatingProjects(conn, projectSql, project);
             }
 
-            statement.executeBatch();
-        } catch (SQLException e) {
-            System.out.println("not correct query project");
-        }
-    }
-
-    private static void populatingWorkers(Connection conn, String sql, List<Worker> workers) {
-        try (PreparedStatement statement = conn.prepareStatement(sql)) {
             for (Worker worker : workers) {
-                statement.setString(1, worker.getName());
-                statement.setDate(2, worker.getBirthday());
-                statement.setString(3, worker.getLevel());
-                statement.setInt(4, worker.getSalary());
-
-                statement.addBatch();
+                populatingWorkers(conn, workerSql, worker);
             }
 
-            statement.executeBatch();
+            for (ProjectWorker projectWorker : projectWorkers) {
+                populatingProjectWorkers(conn, projectWorkerSql, projectWorker);
+            }
+            conn.commit();
         } catch (SQLException e) {
-            System.out.println("not correct query worker");
+
+            try {
+                conn.rollback();
+                System.out.println("rollbec");
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            try {
+                conn.commit();
+                conn.setAutoCommit(true);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    private static void populatingProjectWorkers(Connection conn, String sql, List<ProjectWorker> projectWorkers) {
-        try (PreparedStatement statement = conn.prepareStatement(sql)) {
-            for (ProjectWorker projectWorker : projectWorkers) {
-                statement.setInt(1, projectWorker.getProjectId());
-                statement.setInt(2, projectWorker.getWorkerId());
+    private static void populatingClients(Connection conn, String sql, Client client) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement(sql);
 
-                statement.addBatch();
-            }
+        statement.setString(1, client.getName());
+        System.out.println("correct client");
+        statement.executeUpdate();
+        statement.close();
+    }
 
-            statement.executeBatch();
-        } catch (SQLException e) {
-            System.out.println("not correct query projectWorker");
-        }
+    private static void populatingProjects(Connection conn, String sql, Project project) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement(sql);
+
+        statement.setLong(1, project.getClientId());
+        statement.setDate(2, project.getStartDate());
+        statement.setDate(3, project.getFinishDate());
+        System.out.println("correct project");
+        statement.executeUpdate();
+        statement.close();
+    }
+
+    private static void populatingWorkers(Connection conn, String sql, Worker worker) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement(sql);
+
+        statement.setString(1, worker.getName());
+        statement.setDate(2, worker.getBirthday());
+        statement.setString(3, worker.getLevel());
+        statement.setInt(4, worker.getSalary());
+        System.out.println("correct worker");
+        statement.executeUpdate();
+        statement.close();
+    }
+
+    private static void populatingProjectWorkers(Connection conn, String sql, ProjectWorker projectWorker) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement(sql);
+
+        statement.setInt(1, projectWorker.getProjectId());
+        statement.setInt(2, projectWorker.getWorkerId());
+        System.out.println("correct ProjectWorkers");
+        statement.executeUpdate();
+        statement.close();
     }
 }
