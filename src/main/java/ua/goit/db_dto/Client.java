@@ -2,14 +2,22 @@ package ua.goit.db_dto;
 
 public class Client {
 
-    private long id;
+    private Long id;
     private String name;
+
+    public Client() {
+    }
 
     public Client(String name) {
         this.name = name;
     }
 
-    public long getId() {
+    public Client(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -19,5 +27,13 @@ public class Client {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

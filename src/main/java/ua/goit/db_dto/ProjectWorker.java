@@ -2,27 +2,27 @@ package ua.goit.db_dto;
 
 public class ProjectWorker {
 
-    private Integer projectId;
-    private Integer workerId;
+    private Long projectId;
+    private Long workerId;
 
-    public ProjectWorker(Integer projectId, Integer workerId) {
+    public ProjectWorker(Long projectId, Long workerId) {
         this.projectId = projectId;
         this.workerId = workerId;
     }
 
-    public Integer getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(Integer projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
-    public Integer getWorkerId() {
+    public Long getWorkerId() {
         return workerId;
     }
 
-    public void setWorkerId(Integer workerId) {
+    public void setWorkerId(Long workerId) {
         this.workerId = workerId;
     }
 }

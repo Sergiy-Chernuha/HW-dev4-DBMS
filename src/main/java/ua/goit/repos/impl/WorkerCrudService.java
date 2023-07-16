@@ -27,11 +27,10 @@ public class WorkerCrudService implements DtoCrudServices<Worker> {
         } else {
             update(entity);
         }
-
     }
 
     private void saveAsNew(Worker entity) {
-        String insertSQL = "insert into worker (NAME,BIRTHDAY,LEVEL,SALARY) values (NAME=?,BIRTHDAY=?,LEVEL=?::EXP,SALARY=?)";
+        String insertSQL = "insert into worker (NAME,BIRTHDAY,LEVEL,SALARY) values (?,?,?::EXP,?)";
 
         if (Objects.isNull(entity.getId())) {
             try (PreparedStatement preparedStatement =
@@ -100,6 +99,7 @@ public class WorkerCrudService implements DtoCrudServices<Worker> {
     public void update(Worker entity) {
         try (PreparedStatement preparedStatement =
                      conn.prepareStatement("update worker set NAME=?,BIRTHDAY=?,LEVEL=?::EXP,SALARY=? where id=?")) {
+
             preparedStatement.setLong(5, entity.getId());
             preparedStatement.setString(1, entity.getName());
             preparedStatement.setDate(2, entity.getBirthday());

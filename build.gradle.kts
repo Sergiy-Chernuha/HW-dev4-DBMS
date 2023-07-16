@@ -13,7 +13,7 @@ repositories {
 dependencies {
     implementation("org.postgresql:postgresql:42.6.0")
     implementation("org.slf4j:slf4j-api:2.0.7")
-    implementation("org.flywaydb:flyway-maven-plugin:9.20.1")
+    implementation("org.flywaydb:flyway-core:9.20.1")
 }
 
 flyway{

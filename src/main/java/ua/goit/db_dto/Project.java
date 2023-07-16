@@ -4,30 +4,30 @@ import java.sql.Date;
 
 public class Project {
 
-    private long id;
-    private long clientId;
+    private Long id;
+    private Long clientId;
     private java.sql.Date startDate;
     private java.sql.Date finishDate;
 
-    public Project(long clientId, Date startDate, Date finishDate) {
+    public Project(Long clientId, Date startDate, Date finishDate) {
         this.clientId = clientId;
         this.startDate = startDate;
         this.finishDate = finishDate;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getClientId() {
+    public Long getClientId() {
         return clientId;
     }
 
-    public void setClientId(long clientId) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 
