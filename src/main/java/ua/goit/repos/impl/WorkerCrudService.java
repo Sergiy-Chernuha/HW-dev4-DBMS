@@ -65,7 +65,7 @@ public class WorkerCrudService implements DtoCrudServices<Worker> {
             }
 
             resultSet.close();
-            return Optional.of(worker);
+            return Optional.ofNullable(worker);
         } catch (SQLException e) {
             return Optional.empty();
         }

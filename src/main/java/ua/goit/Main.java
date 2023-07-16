@@ -29,7 +29,7 @@ public class Main {
         System.out.println(client4.orElse(new Client()).getName());
 
         List<Client> allClients = clientService.findAll();
-        System.out.println(Arrays.asList(allClients));
+        System.out.println((allClients));
 
     }
 }
