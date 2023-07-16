@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
         WorkerCrudService workerCrudService= new WorkerCrudService();
-        Optional<Worker> byId = workerCrudService.findById(28l);
+        Optional<Worker> byId = workerCrudService.findById(2l);
         System.out.println(byId.orElse(new Worker()).getName());
     }
 }

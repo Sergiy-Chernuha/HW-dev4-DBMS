@@ -1,5 +1,6 @@
 plugins {
-    id("java")
+    id ("java")
+    id("org.flywaydb.flyway") version "9.20.1"
 }
 
 group = "ua.goit"
@@ -12,13 +13,9 @@ repositories {
 dependencies {
     implementation("org.postgresql:postgresql:42.6.0")
     implementation("org.slf4j:slf4j-api:2.0.7")
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    // https://mvnrepository.com/artifact/org.flywaydb/flyway-core
-    implementation("org.flywaydb:flyway-core:9.20.0")
-
+    implementation("org.flywaydb:flyway-maven-plugin:9.20.1")
 }
 
-tasks.test {
-    useJUnitPlatform()
+flyway{
+    configFiles = arrayOf("src/main/java/resources/flyway.conf")
 }
