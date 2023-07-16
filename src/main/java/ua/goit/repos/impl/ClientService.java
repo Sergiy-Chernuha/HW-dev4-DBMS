@@ -19,6 +19,7 @@ public class ClientService implements DtoCrudServices<Client> {
 
     @Override
     public void save(Client entity) {
+        checkNameLength(entity);
         if (Objects.isNull(entity.getId())) {
             saveAsNew(entity);
         } else if (findById(entity.getId()).isEmpty()) {
@@ -85,6 +86,8 @@ public class ClientService implements DtoCrudServices<Client> {
 
     @Override
     public void update(Client entity) {
+        checkNameLength(entity);
+
         try (PreparedStatement preparedStatement =
                      conn.prepareStatement("update client set NAME=? where id=?")) {
 
@@ -93,6 +96,12 @@ public class ClientService implements DtoCrudServices<Client> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static void checkNameLength(Client entity) {
+        if(entity.getName().length()<2|| entity.getName().length()>1000){
+            throw new IllegalArgumentException("not correct name");
         }
     }
 

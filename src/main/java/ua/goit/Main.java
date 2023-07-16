@@ -3,7 +3,6 @@ package ua.goit;
 import ua.goit.db_dto.Client;
 import ua.goit.repos.impl.ClientService;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +30,10 @@ public class Main {
         List<Client> allClients = clientService.findAll();
         System.out.println((allClients));
 
+        try {
+            clientService.save(new Client("p"));
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
