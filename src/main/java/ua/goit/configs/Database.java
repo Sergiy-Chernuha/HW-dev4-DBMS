@@ -14,13 +14,11 @@ public class Database {
     }
 
     public static Database getInstance() {
-        Database.instance.setConnection();
-
         return instance;
     }
 
     public void setConnection() {
-        try {
+              try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(URL_DB, USER, PASSWORD);
         } catch (SQLException | ClassNotFoundException e) {
@@ -29,6 +27,10 @@ public class Database {
     }
 
     public Connection getConnection() {
+        if(connection==null) {
+            setConnection();
+        }
+
         return connection;
     }
 }

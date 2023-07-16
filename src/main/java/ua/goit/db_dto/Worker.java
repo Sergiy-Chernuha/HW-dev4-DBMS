@@ -4,11 +4,14 @@ import java.sql.Date;
 
 public class Worker {
 
-    private long id;
+    private Long id;
     private String name;
     private java.sql.Date birthday;
     private Level level;
     private Integer salary;
+
+    public Worker() {
+    }
 
     public Worker(String name, Date birthday, String level, Integer salary) {
         this.name = name;
@@ -17,7 +20,15 @@ public class Worker {
         this.salary = salary;
     }
 
-    public long getId() {
+    public Worker(Long id, String name, Date birthday, Level level, Integer salary) {
+        this.id = id;
+        this.name = name;
+        this.birthday = birthday;
+        this.level = level;
+        this.salary = salary;
+    }
+
+    public Long getId() {
         return id;
     }
 

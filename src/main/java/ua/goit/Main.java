@@ -1,16 +1,16 @@
 package ua.goit;
 
-import java.util.Arrays;
+import ua.goit.db_dto.Worker;
+import ua.goit.repos.impl.WorkerCrudService;
+
+import java.util.Optional;
 
 public class Main {
 
     public static void main(String[] args) {
-        DatabaseQueryService databaseQueryService = new DatabaseQueryService();
 
-        System.out.println(Arrays.asList(databaseQueryService.findLongestProject()));
-        System.out.println(Arrays.asList(databaseQueryService.findMaxProjectsClient()));
-        System.out.println(Arrays.asList(databaseQueryService.findMaxSalaryWorker()));
-        System.out.println(Arrays.asList(databaseQueryService.findYoungestOldestWorkers()));
-        System.out.println(Arrays.asList(databaseQueryService.findProjectPrices()));
+        WorkerCrudService workerCrudService= new WorkerCrudService();
+        Optional<Worker> byId = workerCrudService.findById(28l);
+        System.out.println(byId.orElse(new Worker()).getName());
     }
 }
